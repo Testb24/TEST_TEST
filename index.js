@@ -1,3 +1,6 @@
+// const domain = "local";
+const domain = "heroku";
+
 const go_co = document.getElementById('change_connecter');
 const go_in = document.getElementById('change_inscrire');
 
