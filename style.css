@@ -1,0 +1,117 @@
+div {padding: 10px;}
+
+.title {
+    background-color: burlywood;
+}
+
+.travian_test {
+    background-color: rgb(167, 222, 135);
+}
+
+.white_space {
+    height: 100px;
+    width: 200px;
+}
+
+
+table, td, th {
+    padding: 20px;
+    border: 1px black solid;
+    border-collapse: collapse;
+}
+
+.server_test {
+    background-color: cadetblue;
+}
+
+.hidden {
+    display: none;
+}
+
+body {
+    width: 80%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.block {
+    display: block;
+    margin: auto;
+}
+
+.title > h1, span{
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+#connected_space {
+    background-color:crimson;
+    /* background-color:green; */
+    height: 7px;
+    width: 100%;
+    padding: 0;
+}
+
+/* .style.backgroundColor = "green"; */
+
+.form {
+    border: 1px black solid;
+    padding: 10px;
+    margin: 20px;
+    width: 50%;
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    max-width: 280px;
+    /* background-color: greenyellow; */
+}
+
+.form > h2 {
+    padding: 0;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.form > input {
+    width: 55%;
+    margin: auto;
+
+}
+
+.form > label {
+    width: 65%;
+    margin: auto;
+    /* width: 50%; */
+    /* background-color: greenyellow; */
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    max-width: 250px;
+    min-width: 220px;
+}
+
+.form > button {
+    width: 65%;
+    margin: auto;
+    max-width: 250px;
+    min-width: 220px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.change_option {
+    cursor: pointer;
+    color: blue;
+}
+
+.change_option:hover {
+    color:black;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.form > span > p {
+    margin: 5px;
+}
