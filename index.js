@@ -116,26 +116,28 @@ btn2.addEventListener("click", Connexion);
 
 const email_login = document.getElementById('email_login');
 const pass_login = document.getElementById('pass_login');
+let message_validation_co = document.getElementById('message_validation_co');
 
 async function Connexion() {
 
-    let testr = await login();
-    // console.log(testr)
+    let return_from_connexion = await login();
 
-    const token = testr.token;
-    const user = testr.userId;
-    const name = testr.name;
+    if(return_from_connexion.message == "Utilisateur créé !"){
+        message_validation_co.innerText = "Utilisateur créé !";
+    } else if(return_from_connexion.message == "mail ") {
+        message_validation_co.innerText = "Veuillez choisir une autre adresse mail";
+    } else {
+        message_validmessage_validation_cotion.innerText = "Erreur";
+    }
+
+    const token = return_from_connexion.token;
+    const user = return_from_connexion.userId;
+    const name = return_from_connexion.name;
 
     localStorage.setItem('token', token);
     localStorage.setItem('name', name);
 
-    // update_name();
     se_connecte()
-
-    // let tempa = await get_test(localStorage.getItem('token'));
-
-    // console.log(tempa);
-
 };
 
 async function login() {
