@@ -1,6 +1,9 @@
 // const domain = "local";
 const domain = "heroku";
 
+// const url = 'http://localhost:3000';
+const url = "https://trav-server-0-2.herokuapp.com";
+
 const go_co = document.getElementById('change_connecter');
 const go_in = document.getElementById('change_inscrire');
 
@@ -73,7 +76,7 @@ async function createNewUser(email, password, name) {
         password: password,
         name: name
     }
-    const response = await fetch('http://localhost:3000/api/auth/signup', {
+    const response = await fetch(url + '/api/auth/signup', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -135,7 +138,7 @@ async function login() {
 
     // console.log(obj);
 
-    const response = await fetch('http://localhost:3000/api/auth/login', {
+    const response = await fetch(url + '/api/auth/login', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
