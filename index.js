@@ -15,8 +15,8 @@ const go_in = document.getElementById('change_inscrire');
 const form_co = document.getElementById('form_login');
 const form_in = document.getElementById('form_inscription');
 
-let message_validation_reset = document.getElementById('message_validation');
-let message_validation_co_reset = document.getElementById('message_validation_co');
+let message_validation = document.getElementById('message_validation');
+let message_validation_co = document.getElementById('message_validation_co');
 
 form_in.style.display = "none";
 
@@ -32,8 +32,8 @@ function change_screen() {
         form_co.style.display = "none";
     }
     console.log("reset");
-    message_validation_reset.innerText = "";
-    message_validation_co_reset.innerText = "";
+    message_validation.innerText = "";
+    message_validation_co.innerText = "";
 };
 //==============================================================================
 //Affiche le nom et le bandeau vert/rouge si connecté
@@ -69,18 +69,17 @@ const btn = document.getElementById('btn');
 
 btn.addEventListener("click", Inscription);
 
-const email = document.getElementById('email');
-const name2 = document.getElementById('name');
-const pass = document.getElementById('pass');
-let message_validation = document.getElementById('message_validation');
+let email = document.getElementById('email');
+let name2 = document.getElementById('name');
+let pass = document.getElementById('pass');
 
 async function Inscription() {
 
-    let email_in = email.value;
-    let pass_in = pass.value;
-    let name_in = name2.value;
+    console.log("reset");
+    message_validation.innerText = "";
+    message_validation_co.innerText = "";
 
-    let return_from_inscription = await createNewUser(email_in, pass_in, name_in);
+    let return_from_inscription = await createNewUser(email.value, pass.value, name2.value);
 
     if (return_from_inscription.message == "Utilisateur créé !") {
         message_validation.innerText = "Utilisateur créé !";
@@ -89,6 +88,9 @@ async function Inscription() {
     } else {
         message_validation.innerText = "Erreur";
     }
+    email.value = "";
+    name2.value = "";
+    pass.value = "";
 };
 
 async function createNewUser(email, password, name) {
@@ -120,13 +122,16 @@ const btn2 = document.getElementById('btn2');
 
 btn2.addEventListener("click", Connexion);
 
-const email_login = document.getElementById('email_login');
-const pass_login = document.getElementById('pass_login');
-let message_validation_co = document.getElementById('message_validation_co');
+let email_login = document.getElementById('email_login');
+let pass_login = document.getElementById('pass_login');
 
 async function Connexion() {
 
-    let return_from_connexion = await login();
+    console.log("reset");
+    message_validation.innerText = "";
+    message_validation_co.innerText = "";
+
+    let return_from_connexion = await login(email_login.value, pass_login.value);
 
     if (return_from_connexion.error == "user non enregistré !") {
         message_validation_co.innerText = "user non enregistré !";
@@ -135,7 +140,7 @@ async function Connexion() {
     } else {
         message_validation_co.innerText = "Erreur";
     }
-
+    
     const token = return_from_connexion.token;
     const user = return_from_connexion.userId;
     const name = return_from_connexion.name;
@@ -143,23 +148,18 @@ async function Connexion() {
     localStorage.setItem('token', token);
     localStorage.setItem('name', name);
 
-    se_connecte()
-};
-
-async function login() {
-
-    let email_login_co = email_login.value;
-    let pass_login_co = pass_login.value;
-
     email_login.value = ""
     pass_login.value = ""
 
-    const obj = {
-        email: email_login_co,
-        password: pass_login_co
-    }
+    se_connecte()
+};
 
-    // console.log(obj);
+async function login(email, pass) {
+
+    const obj = {
+        email: email,
+        password: pass
+    }
 
     const response = await fetch(url + '/api/auth/login', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
