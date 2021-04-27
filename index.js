@@ -122,12 +122,12 @@ async function Connexion() {
 
     let return_from_connexion = await login();
 
-    if(return_from_connexion.message == "Utilisateur créé !"){
-        message_validation_co.innerText = "Utilisateur créé !";
-    } else if(return_from_connexion.message == "mail ") {
-        message_validation_co.innerText = "Veuillez choisir une autre adresse mail";
+    if(return_from_connexion.message == "user non enregistré !"){
+        message_validation_co.innerText = "user non enregistré !";
+    } else if(return_from_connexion.message == "mdp faux !") {
+        message_validation_co.innerText = "mdp faux !";
     } else {
-        message_validmessage_validation_cotion.innerText = "Erreur";
+        message_validation_co.innerText = "Erreur";
     }
 
     const token = return_from_connexion.token;
