@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', se_connecte);
 
 const name_place = document.getElementById('name_place');
 const connected_space = document.getElementById('connected_space');
+let message_validation_reset = document.getElementById('message_validation');
+let message_validation_co_reset = document.getElementById('message_validation_co');
 
 function se_connecte() {
     // console.log(localStorage.getItem('name'))
@@ -55,6 +57,8 @@ function se_connecte() {
         form_in.style.display = "none";
         form_co.style.display = "none";
     }
+    message_validation_reset.innerText = "";
+    message_validation_co_reset.innerText = "";
 };
 //==============================================================================
 //Inscription de l'utilisateur
@@ -122,9 +126,9 @@ async function Connexion() {
 
     let return_from_connexion = await login();
 
-    if(return_from_connexion.message == "user non enregistré !"){
+    if(return_from_connexion.error == "user non enregistré !"){
         message_validation_co.innerText = "user non enregistré !";
-    } else if(return_from_connexion.message == "mdp faux !") {
+    } else if(return_from_connexion.error == "mdp faux !") {
         message_validation_co.innerText = "mdp faux !";
     } else {
         message_validation_co.innerText = "Erreur";
