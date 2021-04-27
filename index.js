@@ -31,7 +31,7 @@ function change_screen() {
         form_in.style.display = "flex";
         form_co.style.display = "none";
     }
-    console.log("reset");
+
     message_validation.innerText = "";
     message_validation_co.innerText = "";
 };
@@ -44,7 +44,7 @@ const name_place = document.getElementById('name_place');
 const connected_space = document.getElementById('connected_space');
 
 function se_connecte() {
-    // console.log(localStorage.getItem('name'))
+
     if (localStorage.getItem('name') == "undefined" ||
         localStorage.getItem('name') == null ||
         localStorage.getItem('name') == ""
@@ -75,7 +75,6 @@ let pass = document.getElementById('pass');
 
 async function Inscription() {
 
-    console.log("reset");
     message_validation.innerText = "";
     message_validation_co.innerText = "";
 
@@ -127,7 +126,6 @@ let pass_login = document.getElementById('pass_login');
 
 async function Connexion() {
 
-    console.log("reset");
     message_validation.innerText = "";
     message_validation_co.innerText = "";
 
@@ -140,7 +138,7 @@ async function Connexion() {
     } else {
         message_validation_co.innerText = "Erreur";
     }
-    
+
     const token = return_from_connexion.token;
     const user = return_from_connexion.userId;
     const name = return_from_connexion.name;
@@ -185,8 +183,6 @@ const btn_deco = document.getElementById('btn_deco');
 btn_deco.addEventListener("click", Deconnexion);
 
 function Deconnexion() {
-
-    // console.log("aaa");
 
     let token3 = "";
     let name3 = "";
