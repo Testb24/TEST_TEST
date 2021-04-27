@@ -203,3 +203,6 @@ function Deconnexion() {
 //==============================================================================
 //Construit la page Mon compte (tableau serveurs en cours / dispo)
 //==============================================================================
+const liste_server_dispo = document.getElementById('liste_server_dispo');
+const liste_server_joueur = document.getElementById('liste_server_joueur');
+
