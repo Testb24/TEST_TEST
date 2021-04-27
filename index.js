@@ -220,16 +220,20 @@ function Deconnexion() {
 //==============================================================================
 const place_liste_server_dispo = document.getElementById('place_liste_server_dispo');
 const place_liste_server_joueur = document.getElementById('place_liste_server_joueur');
-build_liste()
+build_liste(false)
 
-async function build_liste() {
-    const liste_server_dispo = await req_general_data_server();
+async function build_liste(only_player) {
+
     const liste_server_joueur = await req_player_data_server();
-    console.log(liste_server_dispo);
+    // console.log(liste_server_dispo);
     console.log(liste_server_joueur);
 
-    build_liste_html(liste_server_dispo, place_liste_server_dispo);
-    build_liste_html(liste_server_joueur, place_liste_server_joueur);
+    if (!only_player) {
+        const liste_server_dispo = await req_general_data_server();
+        build_liste_html(liste_server_dispo, place_liste_server_dispo, true);
+    }
+
+    build_liste_html(liste_server_joueur, place_liste_server_joueur, false);
 }
 
 async function req_general_data_server() {
@@ -260,7 +264,7 @@ async function req_player_data_server() {
     // let token554 = localStorage.getItem('token2');
     // console.log(token554);
     let name17 = localStorage.getItem('user')
-    console.log(name17);
+    // console.log(name17);
 
     const response = await fetch(url + '/api/travian/' + name17, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -280,24 +284,70 @@ async function req_player_data_server() {
     return response.json()
 }
 
-function build_liste_html(liste, place) {
+function build_liste_html(liste, place, server_list) {
     liste.forEach(serveur => {
 
         let listItem = document.createElement('li');
         listItem.classList.add("server");
-        listItem.innerText = serveur.name.split('.')[0];
 
-        let add_icon = document.createElement('span');
-        add_icon.innerText = '[+]';
-        add_icon.classList.add("close");
-        add_icon.addEventListener('click', add_server);
+        let temp;
+        // console.log(serveur.name)
+        if (serveur.name != undefined) {
+            temp = serveur.name.split('.')[0];
+        } else {
+            temp = serveur;
+        }
+        listItem.innerText = temp;
+        listItem.id = temp;
 
-        listItem.appendChild(add_icon);
+        if (server_list) {
+            let add_icon = document.createElement('span');
+            add_icon.innerText = '[+]';
+            add_icon.classList.add("close");
+            add_icon.addEventListener('click', add_server);
+            listItem.appendChild(add_icon);
+        }
+
+
         place.appendChild(listItem);
 
     });
 };
 
 function add_server() {
-    console.log(this);
+    console.log(this.parentElement.id);
+
+    add_server_on_DB(this.parentElement.id)
+    build_liste(true)
+}
+
+async function add_server_on_DB(serveur) {
+
+    const liste_server_joueur_temp = await req_player_data_server();
+    let temp4 = liste_server_joueur_temp.push(serveur);
+    console.log(liste_server_joueur_temp)
+    let token5546 = localStorage.getItem('token2');
+    // console.log(token5546);
+    let name176 = localStorage.getItem('user')
+    // console.log(name176);
+
+    let obj99 = {
+        serveur: liste_server_joueur_temp
+    }
+    const response = await fetch(url + '/api/travian/' + name176, {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Authorization': 'Bearer ' + token5546,
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(obj99) // body data type must match "Content-Type" header
+    });
+    // console.log(response.json())
+    return response.json()
 }
