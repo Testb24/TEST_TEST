@@ -54,7 +54,6 @@ function se_connecte() {
         btn_deco.style.visibility = "visible";
         form_in.style.display = "none";
         form_co.style.display = "none";
-
     }
 };
 //==============================================================================

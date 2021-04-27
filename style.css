@@ -4,6 +4,23 @@ div {padding: 10px;}
     background-color: burlywood;
 }
 
+.title > div {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+
+}
+
+#name_place {
+    /* display: block; */
+    /* background-color: orchid; */
+    margin: 0;
+    padding: 0;
+}
+
+
+
 .travian_test {
     background-color: rgb(167, 222, 135);
 }
