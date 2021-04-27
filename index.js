@@ -97,11 +97,12 @@ async function Inscription() {
 };
 
 async function createNewUser(email, password, name) {
+    let johuiu = []
     const obj = {
         email: email,
         password: password,
         name: name,
-        serveur: []
+        serveur: johuiu
     }
     const response = await fetch(url + '/api/auth/signup', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
