@@ -66,6 +66,7 @@ btn.addEventListener("click", Inscription);
 const email = document.getElementById('email');
 const name2 = document.getElementById('name');
 const pass = document.getElementById('pass');
+let message_validation = document.getElementById('message_validation');
 
 async function Inscription() {
 
@@ -73,8 +74,15 @@ async function Inscription() {
     let pass_in = pass.value;
     let name_in = name2.value;
 
-    let qqq = await createNewUser(email_in, pass_in, name_in);
-    console.log(qqq);
+    let return_from_inscription = await createNewUser(email_in, pass_in, name_in);
+
+    if(return_from_inscription.message == "Utilisateur créé !"){
+        message_validation.innerText = "Utilisateur créé !";
+    } else if(return_from_inscription.message == "mail ") {
+        message_validation.innerText = "Veuillez choisir une autre adresse mail";
+    } else {
+        message_validation.innerText = "Erreur";
+    }
 };
 
 async function createNewUser(email, password, name) {
