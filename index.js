@@ -15,6 +15,9 @@ const go_in = document.getElementById('change_inscrire');
 const form_co = document.getElementById('form_login');
 const form_in = document.getElementById('form_inscription');
 
+let message_validation_reset = document.getElementById('message_validation');
+let message_validation_co_reset = document.getElementById('message_validation_co');
+
 form_in.style.display = "none";
 
 go_co.addEventListener('click', change_screen);
@@ -28,6 +31,9 @@ function change_screen() {
         form_in.style.display = "flex";
         form_co.style.display = "none";
     }
+    console.log("reset");
+    message_validation_reset.innerText = "";
+    message_validation_co_reset.innerText = "";
 };
 //==============================================================================
 //Affiche le nom et le bandeau vert/rouge si connecté
@@ -36,8 +42,6 @@ document.addEventListener('DOMContentLoaded', se_connecte);
 
 const name_place = document.getElementById('name_place');
 const connected_space = document.getElementById('connected_space');
-let message_validation_reset = document.getElementById('message_validation');
-let message_validation_co_reset = document.getElementById('message_validation_co');
 
 function se_connecte() {
     // console.log(localStorage.getItem('name'))
@@ -57,8 +61,6 @@ function se_connecte() {
         form_in.style.display = "none";
         form_co.style.display = "none";
     }
-    message_validation_reset.innerText = "";
-    message_validation_co_reset.innerText = "";
 };
 //==============================================================================
 //Inscription de l'utilisateur
@@ -80,9 +82,9 @@ async function Inscription() {
 
     let return_from_inscription = await createNewUser(email_in, pass_in, name_in);
 
-    if(return_from_inscription.message == "Utilisateur créé !"){
+    if (return_from_inscription.message == "Utilisateur créé !") {
         message_validation.innerText = "Utilisateur créé !";
-    } else if(return_from_inscription.message == "mail ") {
+    } else if (return_from_inscription.message == "mail ") {
         message_validation.innerText = "Veuillez choisir une autre adresse mail";
     } else {
         message_validation.innerText = "Erreur";
@@ -126,9 +128,9 @@ async function Connexion() {
 
     let return_from_connexion = await login();
 
-    if(return_from_connexion.error == "user non enregistré !"){
+    if (return_from_connexion.error == "user non enregistré !") {
         message_validation_co.innerText = "user non enregistré !";
-    } else if(return_from_connexion.error == "mdp faux !") {
+    } else if (return_from_connexion.error == "mdp faux !") {
         message_validation_co.innerText = "mdp faux !";
     } else {
         message_validation_co.innerText = "Erreur";
