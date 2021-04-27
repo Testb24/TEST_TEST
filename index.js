@@ -3,8 +3,16 @@ const domain = "heroku";
 
 // AAA
 
-// const url = 'http://localhost:3000';
-const url = "https://trav-server-0-2.herokuapp.com";
+const url = 'http://localhost:3000';
+// const url = "https://trav-server-0-2.herokuapp.com";
+
+// let general_data;
+// load_at_start();
+
+// async function load_at_start() {
+//     general_data = await req_general_data_server()
+// }
+
 
 //==============================================================================
 //Affiche le bon doc : se connecter / s'inscrire
@@ -57,7 +65,7 @@ function se_connecte() {
         form_co.style.display = "flex";
         my_account.style.display = "none";
     } else {
-        name_place.innerText = localStorage.getItem('name')
+        name_place.innerText = localStorage.getItem('name');
         connected_space.style.backgroundColor = "green";
         btn_deco.style.visibility = "visible";
         form_in.style.display = "none";
@@ -148,9 +156,12 @@ async function Connexion() {
     const token = return_from_connexion.token;
     const user = return_from_connexion.userId;
     const name = return_from_connexion.name;
+    console.log(user)
 
     localStorage.setItem('token', token);
+    localStorage.setItem('token2', token);
     localStorage.setItem('name', name);
+    localStorage.setItem('user', user);
 
     email_login.value = ""
     pass_login.value = ""
@@ -165,12 +176,16 @@ async function login(email, pass) {
         password: pass
     }
 
+    let token55 = localStorage.getItem('token2');
+    console.log(token55);
+
     const response = await fetch(url + '/api/auth/login', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
+            'Authorization': 'Bearer ' + token55,
             'Content-Type': 'application/json'
             // 'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -178,7 +193,7 @@ async function login(email, pass) {
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(obj) // body data type must match "Content-Type" header
     });
-
+    // console.log(response)
     return response.json()
 };
 //==============================================================================
@@ -203,6 +218,86 @@ function Deconnexion() {
 //==============================================================================
 //Construit la page Mon compte (tableau serveurs en cours / dispo)
 //==============================================================================
-const liste_server_dispo = document.getElementById('liste_server_dispo');
-const liste_server_joueur = document.getElementById('liste_server_joueur');
+const place_liste_server_dispo = document.getElementById('place_liste_server_dispo');
+const place_liste_server_joueur = document.getElementById('place_liste_server_joueur');
+build_liste()
 
+async function build_liste() {
+    const liste_server_dispo = await req_general_data_server();
+    const liste_server_joueur = await req_player_data_server();
+    console.log(liste_server_dispo);
+    console.log(liste_server_joueur);
+
+    build_liste_html(liste_server_dispo, place_liste_server_dispo);
+    build_liste_html(liste_server_joueur, place_liste_server_joueur);
+}
+
+async function req_general_data_server() {
+
+    // let token554 = localStorage.getItem('token2');
+    // console.log(token554);
+
+    const response = await fetch(url + '/api/travian/server', {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            // 'Authorization': 'Bearer ' + token554,
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify() // body data type must match "Content-Type" header
+    });
+    // console.log(response.json())
+    return response.json()
+}
+
+async function req_player_data_server() {
+
+    // let token554 = localStorage.getItem('token2');
+    // console.log(token554);
+    let name17 = localStorage.getItem('user')
+    console.log(name17);
+
+    const response = await fetch(url + '/api/travian/' + name17, {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            // 'Authorization': 'Bearer ' + token554,
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify() // body data type must match "Content-Type" header
+    });
+    // console.log(response.json())
+    return response.json()
+}
+
+function build_liste_html(liste, place) {
+    liste.forEach(serveur => {
+
+        let listItem = document.createElement('li');
+        listItem.classList.add("server");
+        listItem.innerText = serveur.name.split('.')[0];
+
+        let add_icon = document.createElement('span');
+        add_icon.innerText = '[+]';
+        add_icon.classList.add("close");
+        add_icon.addEventListener('click', add_server);
+
+        listItem.appendChild(add_icon);
+        place.appendChild(listItem);
+
+    });
+};
+
+function add_server() {
+    console.log(this);
+}

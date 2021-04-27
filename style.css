@@ -49,6 +49,7 @@ body {
     width: 80%;
     max-width: 1000px;
     margin: auto;
+    background-color: silver;
 }
 
 .block {
@@ -131,4 +132,26 @@ body {
 
 .form > span > p {
     margin: 5px;
+}
+
+.server {
+    
+  position: relative;
+}
+
+.close {
+    cursor: pointer;
+    /* position: relative; */
+    /* top: 50%; */
+    /* right: 0%; */
+    /* padding: 12px 16px; */
+    /* transform: translate(0%, -50%); */
+    display: inline-block;
+    position: absolute;
+    left: 100px;
+  }
+
+.close:hover {
+    /* background-color: cadetblue; */
+    font-weight: bold;
 }
