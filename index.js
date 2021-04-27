@@ -6,6 +6,9 @@ const domain = "heroku";
 // const url = 'http://localhost:3000';
 const url = "https://trav-server-0-2.herokuapp.com";
 
+//==============================================================================
+//Affiche le bon doc : se connecter / s'inscrire
+//==============================================================================
 const go_co = document.getElementById('change_connecter');
 const go_in = document.getElementById('change_inscrire');
 
@@ -21,12 +24,11 @@ function change_screen() {
     if (this.id == "change_connecter") {
         form_in.style.display = "none";
         form_co.style.display = "flex";
-    } else {
+    } else if (this.id == "change_inscrire") {
         form_in.style.display = "flex";
         form_co.style.display = "none";
     }
 };
-
 //==============================================================================
 //Affiche le nom et le bandeau vert/rouge si connecté
 //==============================================================================
@@ -44,13 +46,17 @@ function se_connecte() {
         name_place.innerText = "Non connecté";
         connected_space.style.backgroundColor = "crimson";
         btn_deco.style.visibility = "hidden";
+        form_in.style.display = "none";
+        form_co.style.display = "flex";
     } else {
         name_place.innerText = localStorage.getItem('name')
         connected_space.style.backgroundColor = "green";
         btn_deco.style.visibility = "visible";
+        form_in.style.display = "none";
+        form_co.style.display = "none";
+
     }
 };
-
 //==============================================================================
 //Inscription de l'utilisateur
 //==============================================================================
@@ -70,7 +76,7 @@ async function Inscription() {
 
     let qqq = await createNewUser(email_in, pass_in, name_in);
     console.log(qqq);
-}
+};
 
 async function createNewUser(email, password, name) {
     const obj = {
@@ -93,7 +99,7 @@ async function createNewUser(email, password, name) {
     });
 
     return response.json()
-}
+};
 //==============================================================================
 //Connexion de l'utilisateur
 //==============================================================================
@@ -123,7 +129,7 @@ async function Connexion() {
 
     // console.log(tempa);
 
-}
+};
 
 async function login() {
 
@@ -155,8 +161,7 @@ async function login() {
     });
 
     return response.json()
-}
-
+};
 //==============================================================================
 //Déconnexion de l'utilisateur
 //==============================================================================
@@ -177,4 +182,4 @@ function Deconnexion() {
     se_connecte();
 
     btn_deco.style.visibility = "hidden";
-}
+};
