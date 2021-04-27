@@ -12,8 +12,8 @@ const url = "https://trav-server-0-2.herokuapp.com";
 const go_co = document.getElementById('change_connecter');
 const go_in = document.getElementById('change_inscrire');
 
-const form_co = document.getElementById('form_login');
-const form_in = document.getElementById('form_inscription');
+let form_co = document.getElementById('form_login');
+let form_in = document.getElementById('form_inscription');
 
 let message_validation = document.getElementById('message_validation');
 let message_validation_co = document.getElementById('message_validation_co');
@@ -40,8 +40,9 @@ function change_screen() {
 //==============================================================================
 document.addEventListener('DOMContentLoaded', se_connecte);
 
-const name_place = document.getElementById('name_place');
-const connected_space = document.getElementById('connected_space');
+let name_place = document.getElementById('name_place');
+let connected_space = document.getElementById('connected_space');
+let my_account = document.getElementById('my_account');
 
 function se_connecte() {
 
@@ -54,12 +55,15 @@ function se_connecte() {
         btn_deco.style.visibility = "hidden";
         form_in.style.display = "none";
         form_co.style.display = "flex";
+        my_account.style.display = "none";
     } else {
         name_place.innerText = localStorage.getItem('name')
         connected_space.style.backgroundColor = "green";
         btn_deco.style.visibility = "visible";
         form_in.style.display = "none";
         form_co.style.display = "none";
+        my_account.style.display = "block";
+
     }
 };
 //==============================================================================
@@ -96,7 +100,8 @@ async function createNewUser(email, password, name) {
     const obj = {
         email: email,
         password: password,
-        name: name
+        name: name,
+        serveur: []
     }
     const response = await fetch(url + '/api/auth/signup', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -194,3 +199,6 @@ function Deconnexion() {
 
     btn_deco.style.visibility = "hidden";
 };
+//==============================================================================
+//Construit la page Mon compte (tableau serveurs en cours / dispo)
+//==============================================================================
