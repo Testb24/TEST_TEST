@@ -1,7 +1,7 @@
 // const domain = "local";
 const domain = "heroku";
 
-// 14:41
+// 14:44
 
 const toggle_btn = document.getElementById('toggle_btn');
 console.log(toggle_btn.checked)
@@ -12,6 +12,8 @@ if (toggle_btn.checked) {
 } else {
     url = 'http://localhost:3000';
 }
+
+console.log(url);
 
 // let general_data;
 // load_at_start();
@@ -150,7 +152,7 @@ let email_login = document.getElementById('email_login');
 let pass_login = document.getElementById('pass_login');
 
 async function Connexion() {
-
+console.log(url)
     message_validation.innerText = "";
     message_validation_co.innerText = "";
 
@@ -214,7 +216,7 @@ const btn_deco = document.getElementById('btn_deco');
 btn_deco.addEventListener("click", Deconnexion);
 
 function Deconnexion() {
-
+    console.log(url)
     let token3 = "";
     let name3 = "";
 
@@ -290,7 +292,7 @@ async function req_player_data_server() {
 }
 
 function build_liste_html(liste, place, server_list) {
-
+    console.log(url)
     // if (!server_list) {
     while (place.firstChild) {
         place.removeChild(place.lastChild);
