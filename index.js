@@ -1,10 +1,10 @@
 // const domain = "local";
 const domain = "heroku";
 
-// AAA
+// 14:34
 
-// const url = 'http://localhost:3000';
-const url = "https://trav-server-0-2.herokuapp.com";
+const url = 'http://localhost:3000';
+// const url = "https://trav-server-0-2.herokuapp.com";
 
 // let general_data;
 // load_at_start();
