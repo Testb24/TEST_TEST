@@ -307,7 +307,7 @@ function build_liste_html(liste, place, server_list) {
         }
         
         linkItem.classList.add("server");
-        linkItem.setAttribute('href', url+'/server/'+temp);
+        linkItem.setAttribute('href', url+'/server/travian/'+temp+'/general');
 
         linkItem.innerHTML = temp;
         linkItem.id = temp;
