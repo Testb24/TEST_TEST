@@ -13,7 +13,6 @@ const url = 'http://localhost:3000';
 //     general_data = await req_general_data_server()
 // }
 
-
 //==============================================================================
 //Affiche le bon doc : se connecter / s'inscrire
 //==============================================================================
@@ -72,6 +71,11 @@ function se_connecte() {
         form_co.style.display = "none";
         my_account.style.display = "block";
 
+        while (place_liste_server_joueur.firstChild) {
+            place_liste_server_joueur.removeChild(place_liste_server_joueur.lastChild);
+        }
+
+        build_liste(false);
     }
 };
 //==============================================================================
@@ -156,7 +160,6 @@ async function Connexion() {
     const token = return_from_connexion.token;
     const user = return_from_connexion.userId;
     const name = return_from_connexion.name;
-    console.log(user)
 
     localStorage.setItem('token', token);
     localStorage.setItem('token2', token);
@@ -167,6 +170,7 @@ async function Connexion() {
     pass_login.value = ""
 
     se_connecte()
+    build_liste(false)
 };
 
 async function login(email, pass) {
@@ -177,7 +181,6 @@ async function login(email, pass) {
     }
 
     let token55 = localStorage.getItem('token2');
-    console.log(token55);
 
     const response = await fetch(url + '/api/auth/login', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -193,7 +196,7 @@ async function login(email, pass) {
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(obj) // body data type must match "Content-Type" header
     });
-    // console.log(response)
+
     return response.json()
 };
 //==============================================================================
@@ -218,15 +221,14 @@ function Deconnexion() {
 //==============================================================================
 //Construit la page Mon compte (tableau serveurs en cours / dispo)
 //==============================================================================
-const place_liste_server_dispo = document.getElementById('place_liste_server_dispo');
-const place_liste_server_joueur = document.getElementById('place_liste_server_joueur');
-build_liste(false)
+let place_liste_server_dispo = document.getElementById('place_liste_server_dispo');
+let place_liste_server_joueur = document.getElementById('place_liste_server_joueur');
+
+// build_liste(false)
 
 async function build_liste(only_player) {
 
     const liste_server_joueur = await req_player_data_server();
-    // console.log(liste_server_dispo);
-    console.log(liste_server_joueur);
 
     if (!only_player) {
         const liste_server_dispo = await req_general_data_server();
@@ -239,7 +241,6 @@ async function build_liste(only_player) {
 async function req_general_data_server() {
 
     // let token554 = localStorage.getItem('token2');
-    // console.log(token554);
 
     const response = await fetch(url + '/api/travian/server', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -255,16 +256,14 @@ async function req_general_data_server() {
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify() // body data type must match "Content-Type" header
     });
-    // console.log(response.json())
+
     return response.json()
 }
 
 async function req_player_data_server() {
 
     // let token554 = localStorage.getItem('token2');
-    // console.log(token554);
     let name17 = localStorage.getItem('user')
-    // console.log(name17);
 
     const response = await fetch(url + '/api/travian/' + name17, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -280,18 +279,24 @@ async function req_player_data_server() {
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify() // body data type must match "Content-Type" header
     });
-    // console.log(response.json())
     return response.json()
 }
 
 function build_liste_html(liste, place, server_list) {
+
+    // if (!server_list) {
+    while (place.firstChild) {
+        place.removeChild(place.lastChild);
+    }
+    // }
+
     liste.forEach(serveur => {
 
         let listItem = document.createElement('li');
         listItem.classList.add("server");
 
         let temp;
-        // console.log(serveur.name)
+
         if (serveur.name != undefined) {
             temp = serveur.name.split('.')[0];
         } else {
@@ -314,22 +319,20 @@ function build_liste_html(liste, place, server_list) {
     });
 };
 
-function add_server() {
-    console.log(this.parentElement.id);
-
-    add_server_on_DB(this.parentElement.id)
+async function add_server() {
+    const aaa = await add_server_on_DB(this.parentElement.id)
     build_liste(true)
 }
 
 async function add_server_on_DB(serveur) {
 
-    const liste_server_joueur_temp = await req_player_data_server();
+    let liste_server_joueur_temp = await req_player_data_server();
     let temp4 = liste_server_joueur_temp.push(serveur);
-    console.log(liste_server_joueur_temp)
+    // uniq = [...new Set(array)];
+    liste_server_joueur_temp = [... new Set(liste_server_joueur_temp)];
+
     let token5546 = localStorage.getItem('token2');
-    // console.log(token5546);
-    let name176 = localStorage.getItem('user')
-    // console.log(name176);
+    let name176 = localStorage.getItem('user');
 
     let obj99 = {
         serveur: liste_server_joueur_temp
@@ -348,6 +351,6 @@ async function add_server_on_DB(serveur) {
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         body: JSON.stringify(obj99) // body data type must match "Content-Type" header
     });
-    // console.log(response.json())
+
     return response.json()
 }
