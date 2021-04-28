@@ -304,8 +304,6 @@ function build_liste_html(liste, place, server_list) {
         let listItem = document.createElement('li');
         let linkItem = document.createElement('a');
 
-
-
         let temp;
 
         if (serveur.name != undefined) {
@@ -315,7 +313,7 @@ function build_liste_html(liste, place, server_list) {
             temp = serveur;
         }
 
-        let url_server = window.location.origin + '/server/' + temp + '/general';
+        let url_server = window.location.origin + '/server.html?a=' + temp + '&b=0';
         console.log(window.location.origin);
 
         linkItem.classList.add("server");
