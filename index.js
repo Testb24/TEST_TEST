@@ -245,7 +245,7 @@ async function build_liste(only_player) {
     }
 
     build_liste_html(liste_server_joueur, place_liste_server_joueur, false);
-}
+};
 
 async function req_general_data_server() {
 
@@ -267,7 +267,7 @@ async function req_general_data_server() {
     });
 
     return response.json()
-}
+};
 
 async function req_player_data_server() {
 
@@ -289,7 +289,7 @@ async function req_player_data_server() {
         body: JSON.stringify() // body data type must match "Content-Type" header
     });
     return response.json()
-}
+};
 
 function build_liste_html(liste, place, server_list) {
     console.log(url)
@@ -315,8 +315,11 @@ function build_liste_html(liste, place, server_list) {
             temp = serveur;
         }
 
+        let url_server = window.location.origin + '/server/' + temp + '/general';
+        console.log(window.location.origin);
+
         linkItem.classList.add("server");
-        linkItem.setAttribute('href', url + '/server/travian/' + temp + '/general');
+        linkItem.setAttribute('href', url_server);
 
         linkItem.innerHTML = temp;
         linkItem.id = temp;
