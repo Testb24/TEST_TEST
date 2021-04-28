@@ -293,34 +293,45 @@ function build_liste_html(liste, place, server_list) {
     liste.forEach(serveur => {
 
         let listItem = document.createElement('li');
-        listItem.classList.add("server");
+        let linkItem = document.createElement('a');
+
+        
 
         let temp;
 
         if (serveur.name != undefined) {
-            temp = serveur.name.split('.')[0];
+            // temp = serveur.name.split('.')[0];
+            temp = serveur.name;
         } else {
             temp = serveur;
         }
-        listItem.innerText = temp;
-        listItem.id = temp;
+        
+        linkItem.classList.add("server");
+        linkItem.setAttribute('href', url+'/server/'+temp);
+
+        linkItem.innerHTML = temp;
+        linkItem.id = temp;
+listItem.appendChild(linkItem);
 
         if (server_list) {
+
             let add_icon = document.createElement('span');
             add_icon.innerText = '[+]';
             add_icon.classList.add("close");
             add_icon.addEventListener('click', add_server);
+            
+            
             listItem.appendChild(add_icon);
         }
-
-
+        
         place.appendChild(listItem);
 
     });
 };
 
 async function add_server() {
-    const aaa = await add_server_on_DB(this.parentElement.id)
+    console.log(this.parentElement.firstChild.id)
+    const aaa = await add_server_on_DB(this.parentElement.firstChild.id)
     build_liste(true)
 }
 
