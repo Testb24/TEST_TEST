@@ -34,3 +34,10 @@ function se_connecte() {
         // build_liste(false);
     }
 };
+
+
+// let params = new URLSearchParams(document.location.search.substring(1));
+
+// let photographe = params.get("photographe");
+// console.log(photographe)
+
