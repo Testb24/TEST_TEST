@@ -3,8 +3,15 @@ const domain = "heroku";
 
 // 14:34
 
-const url = 'http://localhost:3000';
-// const url = "https://trav-server-0-2.herokuapp.com";
+const toggle_btn = document.getElementById('toggle_btn');
+console.log(toggle_btn.checked)
+
+let url;
+if (toggle_btn.checked) {
+    url = "https://trav-server-0-2.herokuapp.com";
+} else {
+    url = 'http://localhost:3000';
+}
 
 // let general_data;
 // load_at_start();
@@ -295,7 +302,7 @@ function build_liste_html(liste, place, server_list) {
         let listItem = document.createElement('li');
         let linkItem = document.createElement('a');
 
-        
+
 
         let temp;
 
@@ -305,13 +312,13 @@ function build_liste_html(liste, place, server_list) {
         } else {
             temp = serveur;
         }
-        
+
         linkItem.classList.add("server");
-        linkItem.setAttribute('href', url+'/server/travian/'+temp+'/general');
+        linkItem.setAttribute('href', url + '/server/travian/' + temp + '/general');
 
         linkItem.innerHTML = temp;
         linkItem.id = temp;
-listItem.appendChild(linkItem);
+        listItem.appendChild(linkItem);
 
         if (server_list) {
 
@@ -319,11 +326,11 @@ listItem.appendChild(linkItem);
             add_icon.innerText = '[+]';
             add_icon.classList.add("close");
             add_icon.addEventListener('click', add_server);
-            
-            
+
+
             listItem.appendChild(add_icon);
         }
-        
+
         place.appendChild(listItem);
 
     });
