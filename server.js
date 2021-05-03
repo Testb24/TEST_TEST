@@ -1,122 +1,97 @@
-let params = new URLSearchParams(document.location.search.substring(1));
+let under_title = document.getElementById("under_title");
+let message_error = document.getElementById('message_error');
 
-let server = params.get("a");
-let type = params.get("b");
-let id = params.get("c");
 
-console.log("a : " + server)
-console.log("b : " + type)
-console.log("c : " + id)
+let DATA_server = Object;
 
-//==============================================================================
-const toggle_btn = document.getElementById('toggle_btn');
-// console.log(toggle_btn.checked)
 
+let temp_var = true;
 let url;
-if (toggle_btn.checked) {
+if (!temp_var) {
     url = "https://trav-server-0-2.herokuapp.com";
 } else {
     url = 'http://localhost:3000';
 }
-
-console.log("url : " + url);
+// // console.log(url);
+// under_title.innerText = 'Stats : ' + type;
+// // console.log(type)
+// if (!id == null) {
+//     // console.log("========AAAA+++++++++++")
+//     under_title.innerText += '(' + id + ')';
+// }
 //==============================================================================
-//Affiche le nom et le bandeau vert/rouge si connecté
+//AU START : - affiche la page / change le type + check if possible 
 //==============================================================================
-document.addEventListener('DOMContentLoaded', se_connecte);
+let server, type, id;
 
-let name_place = document.getElementById('name_place');
-let connected_space = document.getElementById('connected_space');
-let my_account = document.getElementById('my_account');
+at_start()
 
-function se_connecte() {
+function at_start() {
 
-    if (localStorage.getItem('name') == "undefined" ||
-        localStorage.getItem('name') == null ||
-        localStorage.getItem('name') == ""
-    ) {
-        name_place.innerText = "Non connecté";
-        connected_space.style.backgroundColor = "crimson";
-        btn_deco.style.visibility = "hidden";
-        // form_in.style.display = "none";
-        // form_co.style.display = "flex";
-        // my_account.style.display = "none";
-    } else {
-        name_place.innerText = localStorage.getItem('name');
-        connected_space.style.backgroundColor = "green";
-        btn_deco.style.visibility = "visible";
-        // form_in.style.display = "none";
-        // form_co.style.display = "none";
-        // my_account.style.display = "block";
+    let params = new URLSearchParams(document.location.search.substring(1));
+    server = params.get("a");
+    type = params.get("b");
+    id = params.get("c");
 
-        // while (place_liste_server_joueur.firstChild) {
-        //     place_liste_server_joueur.removeChild(place_liste_server_joueur.lastChild);
-        // }
+    if (id == null && type != 'general' && type != '0') {
+        message_error.innerText = "404 : Ally, joueur ou village non trouvé !";
+        type = 'general';
+    };
 
-        // build_liste(false);
-    }
-};
-//==============================================================================
-//Charge le type de data
-//==============================================================================
-type_page(type);
-// console.log(type)
-
-async function type_page(type) {
-    let data;
-    console.log("==========");
     switch (type) {
-
-        case "0":
-            data = await charge_data("general");
+        case 'general':
+        case '0':
+            type = 'general'
             break;
-        case "1":
-            data = await charge_data("ally/" + id);
+        case 'ally':
+        case '1':
+            type = 'ally';
             break;
-        case "2":
-            data = await charge_data("ally/" + id);
+        case 'player':
+        case '2':
+            type = 'player';
             break;
-        case "3":
-            data = await charge_data("town/" + id);
+        case 'town':
+        case '3':
+            type = 'town'
             break;
     }
-    console.log("==========");
-    console.log(data);
 
+    under_title.innerText = "Stats : " + type;
 };
-//==============================================================================
-//Charge General
-//==============================================================================
-async function charge_general() {
-    const data = await charge_data("general")
-};
-//==============================================================================
-//Charge Ally
-//==============================================================================
-async function charge_ally() {
-    const ally = await charge_data("ally/" + id)
 
-};
+console.log("==================================");
+console.log(type);
+console.log("==================================");
 //==============================================================================
-//Charge Player
+//Charge la data au start de la page (=> plus rapide)
 //==============================================================================
-async function charge_player() {
-    const player = await charge_data("player/" + id)
+// document.addEventListener('DOMContentLoaded', charge_data_at_start());
+// build_table(false, server, type);
+charge_data_at_start(server, url, type, id);
 
-};
-//==============================================================================
-//Charge Town
-//==============================================================================
-async function charge_town() {
-    const town = await charge_data("town/" + id)
+async function charge_data_at_start(server, url, type, id) {
+    // console.log(server)
+    // console.log("TEST RETURN");
+    // console.log(DATA_server.allys)
+    if (DATA_server.allys == undefined) {
+        // console.log('recharge les datas');
+        DATA_server.allys = await requete_server(server, "ally", url);
+        // DATA_server.players = await requete_server(server, "player", url);
+        // DATA_server.towns = await requete_server(server, "town", url);
+    }
 
-};
-//==============================================================================
-//Charge Town
-//==============================================================================
-async function charge_data(type) {
+    // console.log(DATA_server);
+    // console.log(DATA_server.allys);
+    // console.log(DATA_server.players);
+    // console.log(DATA_server.towns);
 
-    let url_temp = url + '/api/travian/' + server + '/' + type;
+    build_table(DATA_server, type, id);
+};
+
+async function requete_server(server, type, url) {
+
+    let url_temp = url + '/api/server/' + server + '/' + type;
     console.log(url_temp);
 
     const response = await fetch(url_temp, {
@@ -136,3 +111,77 @@ async function charge_data(type) {
 
     return response.json()
 };
+
+function build_table(DATA_server, type, id) {
+
+    let table = document.getElementById('table');
+
+    let DATA_temp;
+    let table_top = document.createElement('tr');
+    // let table_content = document.createElement('tr');
+    let element = document.createElement('tr');
+
+    console.log(type);
+    console.log(id);
+    console.log(server);
+
+    console.log(DATA_server.allys);
+
+    switch (type) {
+        case ("ally"): DATA_temp = DATA_server.allys;
+            table_top.innerHTML =
+                "<th>Joueur</th>" +
+                "<th>Nbr de vivi</th>" +
+                "<th>Pop</th>";
+            table.appendChild(table_top);
+
+            let ally = DATA_server.allys.find(element => element._id == server + '_' + id);
+
+            ally.Player.forEach(player => {
+                element.innerHTML =
+                    "<td>"+player+"<a href=\"https://"+server+"/profile/"+player+"\" target=\"_blank\"> \&#8663</a></td>" +
+                    "<td>" + player + "</td>" +
+                    "<td>" + player + "</td>";
+                table.appendChild(element);
+            });
+            break;
+        case ("player"): DATA_temp = DATA_server.players;
+            table_top.innerHTML =
+                "<th>Vivi</th>" +
+                "<th>Pop</th>" +
+                "<th>Position</th>";
+                table.appendChild(table_top);
+
+                let player = DATA_server.players.find(element => element._id == server + '_' + id);
+
+                player.town.forEach(player => {
+                    element.innerHTML =
+                        "<td>" + player + "</td>" +
+                        "<td>" + player + "</td>" +
+                        "<td>" + player + "</td>";
+                    table.appendChild(element);
+                });
+            break;
+        case ("town"): DATA_temp = DATA_server.towns;
+            break;
+    }
+
+    // if (table_top != "") {
+    //     table.appendChild(table_top);
+    //     table.appendChild(table_content);
+    // }
+
+
+    console.log(table);
+
+    // console.log(DATA_temp);
+
+
+
+
+};
+//==============================================================================
+const toggle_btn = document.getElementById('toggle_btn');
+// console.log(toggle_btn.checked)
+
+// console.log("url : " + url);

@@ -225,6 +225,9 @@ function Deconnexion() {
 
     se_connecte();
 
+    console.log("index");
+    console.log(localStorage.getItem('name'));
+
     btn_deco.style.visibility = "hidden";
 };
 //==============================================================================

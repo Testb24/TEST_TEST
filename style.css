@@ -144,10 +144,24 @@ body {
     display: inline-block;
     position: relative;
     left: 30px;
-  }
-
+}
 
 .close:hover {
     /* background-color: cadetblue; */
     font-weight: bold;
+}
+
+.button_link {
+    background-color: rgba(189, 142, 80, 0.596);
+    border-radius: 3px;
+    padding: 4px;
+    text-decoration: none;
+    /* border: 1px black solid; */
+    color: black;
+    cursor: pointer;
+}
+
+.button_link:hover {
+    background-color: rgba(189, 142, 80, 0.342);
+    /* text-decoration: none; */
 }
