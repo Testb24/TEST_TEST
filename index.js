@@ -1,7 +1,7 @@
 // const domain = "local";
 const domain = "heroku";
 
-// 15:32
+// 15:35B
 
 const toggle_btn = document.getElementById('toggle_btn');
 console.log(toggle_btn.checked)
@@ -316,8 +316,8 @@ function build_liste_html(liste, place, server_list) {
             temp = serveur;
         }
         let url_server = window.location.origin + '/server.html?a=' + temp + '&b=0';
-        
-        console.log(window.location.pathname.split('/')[1])
+
+        // console.log(window.location.pathname.split('/')[1])
         if (window.location.pathname.split('/')[1] == "Test_Trav_0.2") {
             let url_server = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/server.html?a=' + temp + '&b=0';
         } else {
