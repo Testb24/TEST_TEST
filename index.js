@@ -315,7 +315,10 @@ function build_liste_html(liste, place, server_list) {
         } else {
             temp = serveur;
         }
+console.log(window.location.pathname.split('/'))
+        if(window.location.pathname.split('/')[0]==""){
 
+        }
         let url_server = window.location.origin + '/server.html?a=' + temp + '&b=0';
         console.log(window.location.origin);
 
