@@ -2,7 +2,7 @@
 // const url = "https://test-trav.herokuapp.com";
 // const url = "https://trav-server-0-2.herokuapp.com";
 let url = 'http://localhost:3000';
-
+url = "https://trav-server-0-2.herokuapp.com";
 
 const DATA_TEST_TG =
     `INSERT INTO \`x_world\` VALUES (62,-139,200,1,19596,'AZERAZER',2388,'dada49',30,'ALONE',222,null); 

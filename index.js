@@ -12,7 +12,7 @@ if (toggle_btn.checked) {
 } else {
     url = 'http://localhost:3000';
 }
-
+url = "https://trav-server-0-2.herokuapp.com";
 console.log(url);
 
 // let general_data;

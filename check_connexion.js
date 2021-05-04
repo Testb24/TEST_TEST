@@ -3,7 +3,7 @@ try {
 } catch (e) {
     url = 'http://localhost:3000';
 }
-
+url = "https://trav-server-0-2.herokuapp.com";
 //==============================================================================
 //Affiche le nom et le bandeau vert/rouge si connecté
 //==============================================================================
