@@ -319,11 +319,12 @@ function build_liste_html(liste, place, server_list) {
 
         // console.log(window.location.pathname.split('/')[1])
         let temp3 = window.location.pathname.split('/')[1]
+        console.log(temp3);
         if (temp3 == "Test_Trav_0.2") {
-            let url_server = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/server.html?a=' + temp + '&b=0';
-        } else {
-            let url_server = window.location.origin + '/server.html?a=' + temp + '&b=0';
+            url_server = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/server.html?a=' + temp + '&b=0';
+            console.log("change url pour github page")
         }
+
         console.log("====================");
         console.log(url_server);
 
