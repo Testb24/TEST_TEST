@@ -317,7 +317,7 @@ function build_liste_html(liste, place, server_list) {
         }
         console.log(window.location.pathname.split('/'))
         if (window.location.pathname.split('/')[1] == "") {
-            let url_server = window.location.origin + window.location.pathname.split('/')[1] + '/server.html?a=' + temp + '&b=0';
+            let url_server = window.location.origin +'/'+ window.location.pathname.split('/')[1] + '/server.html?a=' + temp + '&b=0';
         } else {
             let url_server = window.location.origin + '/server.html?a=' + temp + '&b=0';
         }
