@@ -63,8 +63,8 @@ async function dl_map_SQL(server, url) {
 
     //DATA TEST CHOICE
     async function clean_sql_de_travian(server) {
-        // let DATA_FROM_TG = await getData_new_SQL(server);
-        let DATA_FROM_TG = DATA_TEST_TG;
+        let DATA_FROM_TG = await getData_new_SQL(server);
+        // let DATA_FROM_TG = DATA_TEST_TG;
 
         DATA_FROM_TG = ");" + DATA_FROM_TG.replace(/\r|\n/g, '').replace(/\); INSERT INTO `x_world` VALUES \(/g, '\);INSERT INTO `x_world` VALUES \(');
 

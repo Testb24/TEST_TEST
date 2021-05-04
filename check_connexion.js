@@ -23,7 +23,7 @@ function se_connecte() {
 
     let params = new URLSearchParams(document.location.search.substring(1));
     let server = params.get("a");
-
+// console.log(server)
     let temp = server.split('.');
     title.innerText = temp[0] + ' (' + temp[2] + ')';
 
