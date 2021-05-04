@@ -1,7 +1,7 @@
 // const domain = "local";
 const domain = "heroku";
 
-// 15:35 OK
+// OK
 
 const toggle_btn = document.getElementById('toggle_btn');
 console.log(toggle_btn.checked)
