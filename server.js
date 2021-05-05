@@ -21,6 +21,10 @@ retour_menu_base.addEventListener('click', function () {
     //retour sur la page de base
     console.log(server)
     let url_server = window.location.origin + '/server.html?a=' + server + '&b=0';
+
+
+
+
     console.log(url_server)
     // console.log(window.location.pathname.split('/')[1])
     let temp3;
@@ -38,7 +42,13 @@ retour_menu_base.addEventListener('click', function () {
     }
 
     console.log(temp3)
-    window.location.href = url_server
+
+    window.history.pushState("data", "title", url_server)
+
+    main_loop()
+
+
+    // window.location.href = url_server
 });
 
 
@@ -49,9 +59,17 @@ url = "https://trav-server-0-2.herokuapp.com";
 //==============================================================================
 window.addEventListener('load', main_loop);
 
+
+
 async function main_loop() { //url, DATA_server, server, type, id
     i++;
 
+    let table = document.getElementById('table');
+    table.innerHTML = "";
+    params = new URLSearchParams(document.location.search.substring(1));
+    server = params.get("a");
+    type = params.get("b");
+    id = params.get("c");
 
     if (id == null && type != 'general' && type != '0') {
         message_error.innerText = "404 : Ally, joueur ou village non trouvé !";
@@ -80,17 +98,7 @@ async function main_loop() { //url, DATA_server, server, type, id
     under_title.innerText = "Stats : " + type;
 
     await charge_data();
-    async function charge_data() {
-        try {
-            console.log(DATA_server.allys[1]);
-        } catch (e) {
-            console.log('recharge les datas ' + i + ' ème FOIS');
-            DATA_server.allys = await requete_server(server, "ally", url);
-            DATA_server.players = await requete_server(server, "player", url);
-            DATA_server.towns = await requete_server(server, "town", url);
-            // console.log(DATA_server.allys[1]._id)
-        }
-    }
+
 
     // console.log(DATA_server.allys);
     // console.log(DATA_server.players);
@@ -98,6 +106,20 @@ async function main_loop() { //url, DATA_server, server, type, id
     // console.log(type);
     // console.log(id);
     build_table(DATA_server, type, id);
+};
+
+async function charge_data() {
+    console.log("charge ?")
+    try {
+        console.log(DATA_server.allys[1]);
+    } catch (e) {
+        console.log('recharge les datas ' + i + ' ème FOIS');
+        DATA_server.allys = await requete_server(server, "ally", url);
+        DATA_server.players = await requete_server(server, "player", url);
+        DATA_server.towns = await requete_server(server, "town", url);
+        // console.log(DATA_server.allys[1]._id)
+        i++;
+    }
 };
 
 async function requete_server(server, type, url) {
@@ -131,10 +153,14 @@ function build_table(DATA_server, type, id) {
     let table_top = document.createElement('tr');
 
     let DATA_ally, DATA_player, DATA_town;
+    let elt_new;
+    let media_array;
+    let magic_input;
 
     switch (type) {
         case ("general"):
             console.log(server);
+            magic_input = document.getElementById("magic_input");
             let input_auto = document.createElement("div")
             // input_auto.innerHTML =
             //     '<form autocomplete="off">' +
@@ -153,7 +179,7 @@ function build_table(DATA_server, type, id) {
                 '<button id="recherche_joueur">Joueur</button>' +
                 '</div>';
 
-            table.parentElement.appendChild(input_auto);
+            magic_input.appendChild(input_auto);
             // console.log(table.parentElement);
             let players_auto = DATA_server.players.map(player => player.Un);
             let allys_auto = DATA_server.allys.map(ally => ally.An);
@@ -166,15 +192,18 @@ function build_table(DATA_server, type, id) {
             // console.log(myInput.value);
             // console.log(myInput);
             recherche_ally.addEventListener('click', function () {
+                magic_input.removeChild(magic_input.lastElementChild)
                 change_de_page("ally", myInput.value)
             })
             recherche_joueur.addEventListener('click', function () {
+                magic_input.removeChild(magic_input.lastElementChild)
                 change_de_page("player", myInput.value)
             })
 
             function change_de_page(type, name) {
                 // console.log(type);
                 // console.log(name);
+
                 let id;
                 switch (type) {
                     case ("ally"):
@@ -190,8 +219,13 @@ function build_table(DATA_server, type, id) {
 
                 let new_url = window.location.origin + window.location.pathname + '?a=' + server + '&b=' + type + '&c=' + id;
                 // console.log(new_url)
-                window.location.href = new_url;
+                // window.location.href = new_url;
+                window.history.pushState("data", "title", new_url)
+
+                main_loop()
             };
+
+
             break;
         case ("ally"):
             // DATA_temp = DATA_server.allys;
@@ -203,6 +237,7 @@ function build_table(DATA_server, type, id) {
             // console.log(DATA_server.players);
             DATA_ally = DATA_server.allys.find(ally => ally.Aid == id);
             DATA_player = DATA_server.players.filter(player => player.Aid == id);
+            DATA_player.sort((a,b)=>b.Pop - a.Pop);
 
             under_title.innerText = "Alliance " + DATA_ally.An + ' ( ' + DATA_ally.Player.length + ' joueurs )';
             // console.log(DATA_ally)
@@ -214,13 +249,31 @@ function build_table(DATA_server, type, id) {
                 // console.log(window.location.origin + window.location.pathname + '?a=' + server + '&b=2&c=' + player.Uid)
                 element.innerHTML =
                     "<td>" +
-                    "<a href=\"" + window.location.origin + window.location.pathname + '?a=' + server + '&b=2&c=' + player.Uid + "\">" + player.Un + "</a>" +
+                    //"<a href=\"" + window.location.origin + window.location.pathname + '?a=' + server + '&b=2&c=' + player.Uid + "\">" + player.Un + "</a>" +
+                    "<a id=\"" + player.Uid + "\" class=\"create_new_url\">" + player.Un + "</a>" +
+
                     "<a href=\"https://" + server + "/profile/" + player.Uid + "\" target=\"_blank\"> \&#8663</a>" +
                     "</td>" +
                     "<td>" + player.Vivi.length + "</td>" +
                     "<td>" + player.Pop + "</td>";
                 table.appendChild(element);
                 // console.log(table);
+            });
+            elt_new = document.getElementsByClassName("create_new_url");
+            media_array = Object.values(elt_new);
+
+            media_array.forEach(elt => {
+                elt.addEventListener("click", function () {
+                    // window.history.pushState()
+                    console.log(this.id)
+                    var str = window.location.search
+                    str = replaceQueryParam('b', 2, str)
+                    str = replaceQueryParam('c', this.id, str)
+                    // window.location = window.location.pathname + str
+                    window.history.pushState("data", "title", window.location.pathname + str)
+                    table.innerHTML = "";
+                    main_loop()
+                });
             });
             break;
         case ("player"): DATA_temp = DATA_server.players;
@@ -236,6 +289,7 @@ function build_table(DATA_server, type, id) {
             under_title.innerHTML += "<a href=\"https://" + server + "/profile/" + DATA_player.Uid + "\" target=\"_blank\"> \&#8663</a>";
 
             DATA_town = DATA_server.towns.filter(town => town.Uid == id);
+            DATA_town.sort((a,b)=>b.Pop - a.Pop);
             // console.log(DATA_town)
 
             DATA_town.forEach(town => {
@@ -244,7 +298,7 @@ function build_table(DATA_server, type, id) {
                 element.innerHTML =
                     "<td>" +
                     town.Vn +
-                    "<a href=\"https://" + server + "/profile/" + town.Uid + "\" target=\"_blank\"> \&#8663</a>" +
+                    // "<a href=\"https://" + server + "/profile/" + town.Uid + "\" target=\"_blank\"> \&#8663</a>" +
                     "</td>" +
                     "<td>" + town.Pop[town.Pop.length - 1] + "</td>" +
                     "<td>" +
@@ -253,14 +307,48 @@ function build_table(DATA_server, type, id) {
                 table.appendChild(element);
             })
             let message = document.createElement('div');
-            message.innerHTML = "Ally : <a href=\"" + window.location.origin + window.location.pathname + '?a=' + server + '&b=1&c=' + DATA_player.Aid + "\">" + DATA_player.An + "</a>";
+            message.innerHTML =
+                // "Ally : <a href=\"" + window.location.origin + window.location.pathname + '?a=' + server + '&b=1&c=' + DATA_player.Aid + "\">" + DATA_player.An + "</a>";
+                "Ally : <a id=\"" + DATA_player.Aid + "\" class=\"create_new_url\">" + DATA_player.An + "</a>";
+            // magic_input.innerHTML =
+            //     "Ally : <a id=\"" + DATA_player.Aid + "\" class=\"create_new_url\">" + DATA_player.An + "</a>";
             table.parentElement.appendChild(message);
             // console.log(table.parentElement);
+
+            elt_new = document.getElementsByClassName("create_new_url");
+            media_array = Object.values(elt_new);
+
+            media_array.forEach(elt => {
+                elt.addEventListener("click", function () {
+                    // window.history.pushState()
+                    console.log(this);
+                    console.log(this.id);
+                    var str = window.location.search
+                    str = replaceQueryParam('b', 1, str)
+                    str = replaceQueryParam('c', this.id, str)
+                    // window.location = window.location.pathname + str
+                    window.history.pushState("data", "title", window.location.pathname + str)
+                    table.innerHTML = "";
+                    // message.innerHTML = "";
+                    message.parentElement.removeChild(message.parentElement.lastElementChild);
+                    // magic_input.parentElement.removeChild(magic_input.parentElement.lastElementChild);
+                    main_loop()
+                });
+            });
+
+
             break;
         case ("town"): DATA_temp = DATA_server.towns;
             break;
     };
 };
+
+function replaceQueryParam(param, newval, search) {
+    var regex = new RegExp("([?;&])" + param + "[^&;]*[;&]?");
+    var query = search.replace(regex, "$1").replace(/&$/, '');
+
+    return (query.length > 2 ? query + "&" : "?") + (newval ? param + "=" + newval : '');
+}
 //==============================================================================
 const toggle_btn = document.getElementById('toggle_btn');
 // console.log(toggle_btn.checked)

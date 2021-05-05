@@ -219,3 +219,11 @@ input[type=submit] {
   background-color: DodgerBlue !important;
   color: #ffffff;
 }
+
+.create_new_url{
+    cursor: pointer;
+}
+
+.create_new_url:hover{
+    color: rgb(143, 94, 21);
+}
