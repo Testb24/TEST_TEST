@@ -1,6 +1,7 @@
 let under_title = document.getElementById("under_title");
 let message_error = document.getElementById('message_error');
 
+//AAA OK B
 
 let DATA_server = Object;
 let params = new URLSearchParams(document.location.search.substring(1));
