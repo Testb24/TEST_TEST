@@ -84,7 +84,7 @@ async function dl_map_SQL(server, url) {
     //Construit la date
     let d = new Date();
     let test_date = d.getDate() + "/" + (d.getMonth() + 1);
-    test_date = "7/5";
+    // test_date = "7/5";
     console.log(test_date);
 
     let array_new_player_id = [];
