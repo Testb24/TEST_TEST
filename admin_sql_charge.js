@@ -58,7 +58,7 @@ async function dl_map_SQL(server, url) {
     olddata_village.forEach(element => {
         array_village.push(element._id);
     });
-
+    // console.log(array_village)
     let sql_cleaned = await clean_sql_de_travian(server);
 
     //DATA TEST CHOICE
@@ -84,6 +84,7 @@ async function dl_map_SQL(server, url) {
     //Construit la date
     let d = new Date();
     let test_date = d.getDate() + "/" + (d.getMonth() + 1);
+    test_date = "7/5";
     console.log(test_date);
 
     let array_new_player_id = [];
@@ -99,8 +100,9 @@ async function dl_map_SQL(server, url) {
         function save_town(olddata_village, array_village, element, test_date, server) {
             let element_vivi;
 
-            if (!array_village.includes(parseInt(element[4]))) {
-
+            if (!array_village.includes(server + '_' + element[4])) {
+                // console.log(server + '_' + element[4])
+                // console.log("new vivi")
                 if (element[5] != "") { element[5] = element[5].substring(1, element[5].length - 1) }
 
                 element_vivi = {
@@ -127,7 +129,8 @@ async function dl_map_SQL(server, url) {
                     });
 
             } else {
-                let ccc = olddata_village.find(truc => truc._id == parseInt(element[4]))
+                let ccc = olddata_village.find(truc => truc._id == server + '_' + element[4])
+                // console.log(ccc.Day)
                 // console.log("peut-être maj")
                 if (!ccc.Day.includes(test_date)) {
                     // console.log("maj")
@@ -249,7 +252,7 @@ async function dl_map_SQL(server, url) {
     //=========================================
     console.log(array_new_player_id.length);
     // console.log(array_new_player_id);
-    console.log(array_new_player);
+    // console.log(array_new_player);
 
     // url_api = "http://localhost:3000/sql/data/player/s2";
     // url_api = url + "/sql/data/player/s2";
@@ -266,7 +269,7 @@ async function dl_map_SQL(server, url) {
     //=========================================
     console.log(array_new_ally_id.length);
     // console.log(array_new_ally_id);
-    console.log(array_new_ally);
+    // console.log(array_new_ally);
 
     // url_api = "http://localhost:3000/sql/data/ally/s2";
     // url_api = url + "/sql/data/ally/s2";

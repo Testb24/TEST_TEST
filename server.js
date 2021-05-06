@@ -1,7 +1,7 @@
 let under_title = document.getElementById("under_title");
 let message_error = document.getElementById('message_error');
 
-//AAA OK B
+//AAA OK C
 
 let DATA_server = Object;
 let params = new URLSearchParams(document.location.search.substring(1));
@@ -22,8 +22,6 @@ retour_menu_base.addEventListener('click', function () {
     //retour sur la page de base
     console.log(server)
     let url_server = window.location.origin + '/server.html?a=' + server + '&b=0';
-
-
 
 
     console.log(url_server)
@@ -53,8 +51,8 @@ retour_menu_base.addEventListener('click', function () {
 });
 
 
-// url = 'http://localhost:3000';
-url = "https://trav-server-0-2.herokuapp.com";
+url = 'http://localhost:3000';
+// url = "https://trav-server-0-2.herokuapp.com";
 //==============================================================================
 //AU START : - affiche la page / change le type + check if possible 
 //==============================================================================
@@ -89,6 +87,16 @@ async function main_loop() { //url, DATA_server, server, type, id
         case 'player':
         case '2':
             type = 'player';
+
+            try {
+                console.log(DATA_server.towns[1]);
+            } catch (e) {
+                console.log('recharge les datas juste pour town');
+                // DATA_server.allys = await requete_server(server, "ally", url);
+                // DATA_server.players = await requete_server(server, "player", url);
+                DATA_server.towns = await requete_server(server, "town", url);
+            }
+
             break;
         case 'town':
         case '3':
@@ -117,7 +125,7 @@ async function charge_data() {
         console.log('recharge les datas ' + i + ' ème FOIS');
         DATA_server.allys = await requete_server(server, "ally", url);
         DATA_server.players = await requete_server(server, "player", url);
-        DATA_server.towns = await requete_server(server, "town", url);
+        // DATA_server.towns = await requete_server(server, "town", url);
         // console.log(DATA_server.allys[1]._id)
         i++;
     }
@@ -150,7 +158,7 @@ function build_table(DATA_server, type, id) {
 
     let table = document.getElementById('table');
 
-    let DATA_temp;
+    // let DATA_temp;
     let table_top = document.createElement('tr');
 
     let DATA_ally, DATA_player, DATA_town;
@@ -235,12 +243,15 @@ function build_table(DATA_server, type, id) {
                 "<th>Nbr de vivi</th>" +
                 "<th>Pop</th>";
             table.appendChild(table_top);
-            // console.log(DATA_server.players);
+            console.log(DATA_server.allys);
             DATA_ally = DATA_server.allys.find(ally => ally.Aid == id);
             DATA_player = DATA_server.players.filter(player => player.Aid == id);
-            DATA_player.sort((a,b)=>b.Pop - a.Pop);
-
-            under_title.innerText = "Alliance " + DATA_ally.An + ' ( ' + DATA_ally.Player.length + ' joueurs )';
+            DATA_player.sort((a, b) => b.Pop - a.Pop);
+            console.log(DATA_ally)
+            console.log(DATA_player[0])
+            // under_title.innerText = "Alliance " + DATA_ally.An + ' ( ' + DATA_ally.Player.length + ' joueurs )';
+            // under_title.innerText = "Alliance " + DATA_player[0].An + ' ( ' + DATA_player.length + ' joueurs )';
+            under_title.innerText = "Alliance " + DATA_ally.An + ' ( ' + DATA_player.length + ' joueurs )';
             // console.log(DATA_ally)
             // console.log(DATA_ally.An)
             // console.log(DATA_player)
@@ -277,7 +288,8 @@ function build_table(DATA_server, type, id) {
                 });
             });
             break;
-        case ("player"): DATA_temp = DATA_server.players;
+        case ("player"):
+            // DATA_temp = DATA_server.players;
             table_top.innerHTML =
                 "<th>Vivi</th>" +
                 "<th>Pop</th>" +
@@ -290,7 +302,7 @@ function build_table(DATA_server, type, id) {
             under_title.innerHTML += "<a href=\"https://" + server + "/profile/" + DATA_player.Uid + "\" target=\"_blank\"> \&#8663</a>";
 
             DATA_town = DATA_server.towns.filter(town => town.Uid == id);
-            DATA_town.sort((a,b)=>b.Pop - a.Pop);
+            DATA_town.sort((a, b) => b.Pop - a.Pop);
             // console.log(DATA_town)
 
             DATA_town.forEach(town => {
@@ -339,7 +351,8 @@ function build_table(DATA_server, type, id) {
 
 
             break;
-        case ("town"): DATA_temp = DATA_server.towns;
+        case ("town"):
+            // DATA_temp = DATA_server.towns;
             break;
     };
 };
