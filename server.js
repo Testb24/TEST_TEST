@@ -20,27 +20,27 @@ let i = 0;
 let retour_menu_base = document.getElementById('retour_menu_base');
 retour_menu_base.addEventListener('click', function () {
     //retour sur la page de base
-    console.log(server)
+    // console.log(server)
     let url_server = window.location.origin + '/server.html?a=' + server + '&b=0';
 
 
-    console.log(url_server)
+    // console.log(url_server)
     // console.log(window.location.pathname.split('/')[1])
     let temp3;
 
     try {
-        console.log(window.location.pathname)
+        // console.log(window.location.pathname)
         temp3 = window.location.pathname.split('/')[1]
-        console.log(temp3);
+        // console.log(temp3);
         if (temp3 == "Test_Trav_0.2") {
             url_server = window.location.origin + '/' + temp3 + '/server.html?a=' + server + '&b=0';
-            console.log("change url pour github page")
+            // console.log("change url pour github page")
         }
     } catch (e) {
         // console.log(e)
     }
 
-    console.log(temp3)
+    // console.log(temp3)
 
     window.history.pushState("data", "title", url_server)
 
@@ -51,8 +51,8 @@ retour_menu_base.addEventListener('click', function () {
 });
 
 
-url = 'http://localhost:3000';
-// url = "https://trav-server-0-2.herokuapp.com";
+// url = 'http://localhost:3000';
+url = "https://trav-server-0-2.herokuapp.com";
 //==============================================================================
 //AU START : - affiche la page / change le type + check if possible 
 //==============================================================================
@@ -89,9 +89,9 @@ async function main_loop() { //url, DATA_server, server, type, id
             type = 'player';
 
             try {
-                console.log(DATA_server.towns[1]);
+                let temp = DATA_server.towns[1];
             } catch (e) {
-                console.log('recharge les datas juste pour town');
+                // console.log('recharge les datas juste pour town');
                 // DATA_server.allys = await requete_server(server, "ally", url);
                 // DATA_server.players = await requete_server(server, "player", url);
                 DATA_server.towns = await requete_server(server, "town", url);
@@ -118,11 +118,11 @@ async function main_loop() { //url, DATA_server, server, type, id
 };
 
 async function charge_data() {
-    console.log("charge ?")
+    // console.log("charge ?")
     try {
-        console.log(DATA_server.allys[1]);
+        DATA_server.allys[1] != DATA_server.players[1]
     } catch (e) {
-        console.log('recharge les datas ' + i + ' ème FOIS');
+        // console.log('recharge les datas ' + i + ' ème FOIS');
         DATA_server.allys = await requete_server(server, "ally", url);
         DATA_server.players = await requete_server(server, "player", url);
         // DATA_server.towns = await requete_server(server, "town", url);
@@ -168,7 +168,7 @@ function build_table(DATA_server, type, id) {
 
     switch (type) {
         case ("general"):
-            console.log(server);
+            // console.log(server);
             magic_input = document.getElementById("magic_input");
             let input_auto = document.createElement("div")
             // input_auto.innerHTML =
@@ -243,12 +243,12 @@ function build_table(DATA_server, type, id) {
                 "<th>Nbr de vivi</th>" +
                 "<th>Pop</th>";
             table.appendChild(table_top);
-            console.log(DATA_server.allys);
+            // console.log(DATA_server.allys);
             DATA_ally = DATA_server.allys.find(ally => ally.Aid == id);
             DATA_player = DATA_server.players.filter(player => player.Aid == id);
             DATA_player.sort((a, b) => b.Pop - a.Pop);
-            console.log(DATA_ally)
-            console.log(DATA_player[0])
+            // console.log(DATA_ally)
+            // console.log(DATA_player[0])
             // under_title.innerText = "Alliance " + DATA_ally.An + ' ( ' + DATA_ally.Player.length + ' joueurs )';
             // under_title.innerText = "Alliance " + DATA_player[0].An + ' ( ' + DATA_player.length + ' joueurs )';
             under_title.innerText = "Alliance " + DATA_ally.An + ' ( ' + DATA_player.length + ' joueurs )';
@@ -277,7 +277,7 @@ function build_table(DATA_server, type, id) {
             media_array.forEach(elt => {
                 elt.addEventListener("click", function () {
                     // window.history.pushState()
-                    console.log(this.id)
+                    // console.log(this.id)
                     var str = window.location.search
                     str = replaceQueryParam('b', 2, str)
                     str = replaceQueryParam('c', this.id, str)
@@ -334,8 +334,8 @@ function build_table(DATA_server, type, id) {
             media_array.forEach(elt => {
                 elt.addEventListener("click", function () {
                     // window.history.pushState()
-                    console.log(this);
-                    console.log(this.id);
+                    // console.log(this);
+                    // console.log(this.id);
                     var str = window.location.search
                     str = replaceQueryParam('b', 1, str)
                     str = replaceQueryParam('c', this.id, str)
