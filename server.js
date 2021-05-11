@@ -17,6 +17,9 @@ let temp_var = true;
 let url;
 let i = 0;
 
+url = 'http://localhost:3000';
+// url = "https://trav-server-0-2.herokuapp.com";
+
 let retour_menu_base = document.getElementById('retour_menu_base');
 retour_menu_base.addEventListener('click', function () {
     //retour sur la page de base
@@ -51,8 +54,7 @@ retour_menu_base.addEventListener('click', function () {
 });
 
 
-// url = 'http://localhost:3000';
-url = "https://trav-server-0-2.herokuapp.com";
+
 //==============================================================================
 //AU START : - affiche la page / change le type + check if possible 
 //==============================================================================
@@ -135,7 +137,8 @@ async function requete_server(server, type, url) {
 
     let url_temp = url + '/api/server/' + server + '/' + type;
     // console.log(url_temp);
-
+    let token55 = localStorage.getItem('token2');
+    // console.log(token55)
     const response = await fetch(url_temp, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
@@ -143,6 +146,7 @@ async function requete_server(server, type, url) {
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
             // 'Authorization': 'Bearer ' + token554,
+            'Authorization': 'Bearer ' + token55,
             'Content-Type': 'application/json'
             // 'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -181,7 +185,7 @@ function build_table(DATA_server, type, id) {
 
             input_auto.innerHTML =
                 '<div class="autocomplete" style="width:300px;">' +
-                '<input id="myInput" type="text" name="myCountry" placeholder="Recherche">' +
+                '<input id="myInput" type="text" name="myCountry" placeholder="Recherche" autocomplete="off">' +
                 '</div>' +
                 '<div>' +
                 '<button id="recherche_ally">Ally</button>' +

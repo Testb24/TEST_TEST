@@ -12,7 +12,8 @@ if (toggle_btn.checked) {
 } else {
     url = 'http://localhost:3000';
 }
-url = "https://trav-server-0-2.herokuapp.com";
+// url = "https://trav-server-0-2.herokuapp.com";
+url = 'http://localhost:3000';
 console.log(url);
 
 // let general_data;
@@ -118,12 +119,13 @@ async function Inscription() {
 };
 
 async function createNewUser(email, password, name) {
-    let johuiu = []
+    // let johuiu = []
     const obj = {
         email: email,
         password: password,
         name: name,
-        serveur: johuiu
+        serveur: [],
+        groupe: []
     }
     const response = await fetch(url + '/api/auth/signup', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
