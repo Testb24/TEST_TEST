@@ -51,7 +51,7 @@ async function dl_map_SQL(server, url) {
         });
 
         return response.json();
-    };
+    }
 
     //Construit l'array des id de town
     let array_village = [];
@@ -78,7 +78,7 @@ async function dl_map_SQL(server, url) {
         testYY = DATA_FROM_TG_ARRAY;
 
         return testYY;
-    };
+    }
 
 
     //Construit la date
@@ -96,7 +96,7 @@ async function dl_map_SQL(server, url) {
     sql_cleaned.forEach(town_sql => {
         town_sql = town_sql.split(',');
 
-        let vivi_parsed = save_town(olddata_village, array_village, town_sql, test_date, server);
+        save_town(olddata_village, array_village, town_sql, test_date, server);
         function save_town(olddata_village, array_village, element, test_date, server) {
             let element_vivi;
 
@@ -165,12 +165,12 @@ async function dl_map_SQL(server, url) {
                 }
             }
             return element_vivi;
-        };
+        }
 
         // console.log(vivi_parsed);
 
-        build_player(town_sql, array_new_player, array_new_player_id, vivi_parsed);
-        function build_player(element, array_new_player, array_new_player_id, vivi_parsed) {
+        build_player(town_sql, array_new_player, array_new_player_id);
+        function build_player(element, array_new_player, array_new_player_id) {
             let element_player;
 
             // console.log(array_new_player_id);
@@ -202,7 +202,7 @@ async function dl_map_SQL(server, url) {
                 array_new_player[index_of].Pop += parseInt(element[10]);
             }
 
-        };
+        }
 
 
         build_ally(town_sql, array_new_ally, array_new_ally_id);
@@ -283,7 +283,7 @@ async function dl_map_SQL(server, url) {
     });
 
     console.log("end");
-};
+}
 
 
 //GET 
@@ -311,7 +311,7 @@ async function getData_new_SQL(server) {
     // console.log(response);
     // console.log(response.json());
     return response.text();
-};
+}
 
 //POST DATA
 async function postData_SQL(url = '', data = {}) {
@@ -331,7 +331,7 @@ async function postData_SQL(url = '', data = {}) {
     });
     // console.log("data_saved")
     return response.json(); // parses JSON response into native JavaScript objects
-};
+}
 // PUT DATA
 async function updateDATA_SQL(url = '', data = {}) {
 
@@ -350,6 +350,6 @@ async function updateDATA_SQL(url = '', data = {}) {
     });
     // console.log("data_changed")
     return response.json(); // parses JSON response into native JavaScript objects
-};
+}
 
 
