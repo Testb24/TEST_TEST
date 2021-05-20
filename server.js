@@ -178,6 +178,8 @@ function build_table(DATA_server, type, id) {
 	let media_array
 	let magic_input
 
+console.log("aaa");
+
 	switch (type) {
 		case ('general'):
 			// console.log(server);
