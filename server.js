@@ -113,7 +113,6 @@ async function main_loop() { // url, DATA_server, server, type, id
 			type = 'town'
 			break
 	}
-
 	under_title.innerText = 'Stats : ' + type
 
 	await charge_data()
@@ -128,15 +127,17 @@ async function main_loop() { // url, DATA_server, server, type, id
 }
 
 async function charge_data() {
-	// console.log("charge ?")
+	console.log("charge ?")
 	try {
 		DATA_server.allys[1] != DATA_server.players[1]
+		console.log("1")
 	} catch (e) {
 		// console.log('recharge les datas ' + i + ' ème FOIS');
 		DATA_server.allys = await requete_server(server, 'ally', url)
 		DATA_server.players = await requete_server(server, 'player', url)
 		// DATA_server.towns = await requete_server(server, "town", url);
-		// console.log(DATA_server.allys[1]._id)
+		console.log(DATA_server.allys[1]._id)
+		console.log("2")
 		i++
 	}
 }
@@ -144,7 +145,7 @@ async function charge_data() {
 async function requete_server(server, type, url) {
 
 	const url_temp = url + '/api/server/' + server + '/' + type
-	// console.log(url_temp);
+	console.log(url_temp);
 	const token55 = localStorage.getItem('token2')
 	// console.log(token55)
 	const response = await fetch(url_temp, {
@@ -154,7 +155,7 @@ async function requete_server(server, type, url) {
 		credentials: 'same-origin', // include, *same-origin, omit
 		headers: {
 			// 'Authorization': 'Bearer ' + token554,
-			'Authorization': 'Bearer ' + token55,
+			'Authorization': 'Bearer ' + token55, //+'aaa',
 			'Content-Type': 'application/json'
 			// 'Content-Type': 'application/x-www-form-urlencoded',
 		},

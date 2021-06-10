@@ -2,7 +2,7 @@
 // const url = "https://test-trav.herokuapp.com";
 // const url = "https://trav-server-0-2.herokuapp.com";
 let url = 'http://localhost:3000';
-url = "https://trav-server-0-2.herokuapp.com";
+// url = "https://trav-server-0-2.herokuapp.com";
 
 const DATA_TEST_TG =
     `INSERT INTO \`x_world\` VALUES (62,-139,200,1,19596,'AZERAZER',2388,'dada49',30,'ALONE',222,null); 
@@ -37,7 +37,7 @@ async function dl_map_SQL(server, url) {
         console.log(server)
         let url_SQL;
         url_SQL = url + "/api/server/" + server + "/" + type;
-
+        console.log(url_SQL)
         const response = await fetch(url_SQL, {
             method: 'GET',
             mode: 'cors',
@@ -130,7 +130,8 @@ async function dl_map_SQL(server, url) {
 
             } else {
                 let ccc = olddata_village.find(truc => truc._id == server + '_' + element[4])
-                // console.log(ccc.Day)
+                console.log(ccc.Day)
+                console.log(ccc)
                 // console.log("peut-être maj")
                 if (!ccc.Day.includes(test_date)) {
                     // console.log("maj")
