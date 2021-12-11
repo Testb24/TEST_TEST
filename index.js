@@ -20,7 +20,7 @@ function test_test(url) {
     url89 = url + "/api/server/ts7.x1.europe.travian.com/test/test"
     console.log("pry")
     console.log(url89)
-    // postArray(url89, data98)
+    postArray(url89, data98)
 }
 
 async function postArray(url = '', data = []) {
